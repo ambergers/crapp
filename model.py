@@ -28,6 +28,11 @@ class User(db.Model):
 
         return f"<User id={self.user_id} name={self.full_name}>"
 
+    # Define relationships
+    lists = db.relationship("NamedList")
+    checkins = db.relationship("CheckIn")
+    ratings = db.relationship("Rating", backref=db.backref("ratings"))
+
 class Bathroom(db.Model):
     """Bathroom on crApp website."""
 
@@ -44,6 +49,10 @@ class Bathroom(db.Model):
 
         return f"<Bathroom id={self.bathroom_id} lat_long={self.latitude},{self.longitude}>"
 
+    # Define relationships
+    checkins = db.relationship("CheckIn")
+    ratings = db.relationship("Rating")
+
 class NamedList(db.Model):
     """Named lists for users to add bathrooms to (fave, least fave, etc)."""
 
@@ -57,6 +66,9 @@ class NamedList(db.Model):
         """Provide helpful NamedList representation when printed."""
 
         return f"<List id={self.list_id} name={self.list_name}>"
+
+    # Define relationship
+    list_items = db.relationship("NamedList", backref=db.backref("named_list"))
 
 class ListItem(self):
     """ListItems - bathrooms, user, named list they've been put on."""
