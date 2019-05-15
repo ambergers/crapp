@@ -7,6 +7,7 @@ from model import connect_to_db
 
 
 app = Flask(__name__)
+# This is only temporary, will change later
 app.secret_key = 'SUpeRsecrEt'
 
 @app.route('/')

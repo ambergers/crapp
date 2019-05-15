@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+  <head>
+    <title>crApp</title>
+  </head>
+
+  <body>
+    crApp
+    <!-- Show flashed messages -->
+    {% with messages = get_flashed_messages() %}
+      {% for message in messages %}
+        <div class="alert alert-warning">{{ message }}</div>
+      {% endfor %}
+    {% endwith %}
+                                                  
+    {% block content %} page specific content {% endblock %}
+
+  </body>
+</html>
