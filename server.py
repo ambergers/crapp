@@ -1,0 +1,23 @@
+"""Flask app for crApp project."""
+
+from flask import Flask, render_template
+from flask_debugtoolbar import DebugToolbarExtension
+
+from model import connect_to_db
+
+
+app = Flask(__name__)
+app.secret_key = 'SUpeRsecrEt'
+
+@app.route('/')
+def homepage():
+    """Show homepage."""
+
+    # TODO: make homepage.html
+    return render_template('homepage.html')
+
+if __name__ == "__main__":
+    app.depug = True
+    connect_to_db(app)
+    DebugToolbarExtension(app)
+    app.run()
