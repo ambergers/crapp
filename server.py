@@ -18,7 +18,7 @@ def homepage():
     return render_template('homepage.html')
 
 if __name__ == "__main__":
-    app.depug = True
+    app.debug = True
     connect_to_db(app)
     DebugToolbarExtension(app)
-    app.run()
+    app.run(host="0.0.0.0", port="5001")

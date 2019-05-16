@@ -20,7 +20,7 @@ class User(db.Model):
     email = db.Column(db.String(256), nullable=False)
     gender = db.Column(db.String(30), nullable=True)
     date_of_birth = db.Column(db.Date, nullable=True)
-    created_at = db.Column(db.Datetime, nullable=False)
+    created_at = db.Column(db.Date, nullable=False)
     is_premium = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
@@ -70,15 +70,16 @@ class NamedList(db.Model):
     # Define relationship
     list_items = db.relationship("NamedList", backref=db.backref("named_list"))
 
-class ListItem(self):
+class ListItem(db.Model):
     """ListItems - bathrooms, user, named list they've been put on."""
 
     __tablename__ = "list_items"
 
+    list_item_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     list_id = db.Column(db.Integer, db.ForeignKey('lists.list_id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     bathroom_id = db.Column(db.Integer, db.ForeignKey('bathrooms.bathroom_id'), nullable=False)
-    date_faved = db.Column(db.datetime, nullable=False)
+    date_faved = db.Column(db.Date, nullable=False)
 
     def __repr__(self):
         """Provide helpful ListItem representation when printed."""
@@ -93,13 +94,13 @@ class CheckIn(db.Model):
     checkin_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     bathroom_id = db.Column(db.Integer, db.ForeignKey('bathrooms.bathroom_id'), nullable=False)
-    checkin_datetime = db.Column(db.Datetime, nullable=False)
-    rating_id = db.Column(db.Integer, nullable=True, db.ForeignKey('ratings.rating_id'))
+    checkin_date= db.Column(db.Date, nullable=False)
+    rating_id = db.Column(db.Integer, db.ForeignKey('ratings.rating_id'), nullable=True)
 
     def __repr__(self):
         """Provide helpful CheckIn representation when printed."""
         
-        return f"<Checkin id={self.checkin_id} user={self.user_id} bathroom={self.bathroom_id} datetime={self.checkin_datetime}>"
+        return f"<Checkin id={self.checkin_id} user={self.user_id} bathroom={self.bathroom_id} date={self.checkin_date}>"
 
 class Rating(db.Model):
     """User ratings, must have checked in to make a rating."""
