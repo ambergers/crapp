@@ -66,7 +66,13 @@ class Bathroom(db.Model):
     # Define relationships
     checkins = db.relationship("CheckIn")
     ratings = db.relationship("Rating")
-    
+   
+    def __init__(self, latitude, longitude, address=None):
+        self.latitude = latitude
+        self.longitude = longitude
+        if address:
+            self.address = address
+
     def __repr__(self):
         """Provide helpful Bathroom representation with printed."""
 
@@ -83,7 +89,11 @@ class NamedList(db.Model):
 
     # Define relationship
     list_items = db.relationship("ListItem", backref=db.backref("named_list"))
-    
+   
+    def __init__(self, list_name, user_id):
+        self.list_name = list_name
+        self.user_id = user_id
+
     def __repr__(self):
         """Provide helpful NamedList representation when printed."""
 
@@ -98,7 +108,13 @@ class ListItem(db.Model):
     list_id = db.Column(db.Integer, db.ForeignKey('lists.list_id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     bathroom_id = db.Column(db.Integer, db.ForeignKey('bathrooms.bathroom_id'), nullable=False)
-    datetime_faved = db.Column(db.DateTime, nullable=False)
+    datetime_added = db.Column(db.DateTime, nullable=False)
+
+    def __init__(self, list_id, user_id, bathroom_id):
+        self.list_id = list_id
+        self.user_id = user_id
+        self.bathroom_id = bathroom_id
+        self.datetime_added = datetime.now()
 
     def __repr__(self):
         """Provide helpful ListItem representation when printed."""
@@ -116,6 +132,19 @@ class CheckIn(db.Model):
     checkin_datetime= db.Column(db.DateTime, nullable=False)
     rating_id = db.Column(db.Integer, db.ForeignKey('ratings.rating_id'), nullable=True)
 
+    def __init__(self, user_id, bathroom_id, checkin_datetime=None, rating_id=None):
+        self.user_id = user_id
+        self.bathroom_id = bathroom_id
+        
+        if checkin_datetime:
+            self.checkin_datetime = checkin_datetime
+        else:
+            self.checkin_datetime = datetime.now()
+
+        if rating_id:
+            self.rating_id = rating_id
+        
+
     def __repr__(self):
         """Provide helpful CheckIn representation when printed."""
         
@@ -132,6 +161,14 @@ class Rating(db.Model):
     checkin_id = db.Column(db.Integer, db.ForeignKey('checkins.checkin_id'), nullable=False)
     score = db.Column(db.Integer, nullable=False)
     review_text = db.Column(db.String(200), nullable=True)
+
+    def __init__(self, user_id, bathroom_id, checkin_id, score, review_text=None):
+        self.user_id = user_id
+        self.bathroom_id = bathroom_id
+        self.checkin_id = checkin_id
+        self.score = score
+        if review_text:
+            self.review_text = review_text
 
     def __repr__(self):
         """Provide helpful rating representation when printed."""
