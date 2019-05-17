@@ -29,6 +29,28 @@ def load_users():
     db.session.commit()
     print("Users Loaded")
 
+def load_bathrooms():
+    """Load bathroom data from api into crapp database."""
+    # TODO: make a get request of all bathroom data
+    # Load to or update in database
+
+def load_named_lists():
+    """Load initial named lists for all users to access."""
+    # TODO: instanciate fave and least fave lists
+
+def load_list_items():
+    """Load list items for users' lists."""
+    # TODO
+
+def load_checkins():
+    """Load checkins for fake users created with load_users."""
+    # TODO
+
+def load_ratings():
+    """Load ratings for fake users created with load_users."""
+    # TODO
+
+
 if __name__ == "__main__":
     connect_to_db(app)
 
