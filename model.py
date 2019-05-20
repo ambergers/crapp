@@ -1,5 +1,7 @@
 """Models and database functions for crApp."""
 
+import requests
+
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime 
 from faker import Faker
@@ -72,8 +74,8 @@ class Bathroom(db.Model):
     city = db.Column(db.String(60), nullable=True)
     state = db.Column(db.String(60), nullable=True)
     country = db.Column(db.String(60), nullable=True)
-    latitude = db.Column(db.Float(10,6), nullable=False)
-    longitude = db.Column(db.Float(10,6), nullable=False)
+    latitude = db.Column(db.Numeric(11,7), nullable=False)
+    longitude = db.Column(db.Numeric(11,7), nullable=False)
     unisex = db.Column(db.Boolean, nullable=True)
     accessible = db.Column(db.Boolean, nullable=True)
     changing_table = db.Column(db.Boolean, nullable=True)
@@ -132,6 +134,27 @@ class Bathroom(db.Model):
         """Provide helpful Bathroom representation with printed."""
 
         return f"<Bathroom id={self.bathroom_id} lat,long={self.latitude},{self.longitude}>"
+
+ 
+    def in_database(self):
+        """Use Bathroom object lat-long to see if it's already in the database.
+        
+        Returns boolean - true if Bathroom's lat-long in database, false if not
+        """
+
+        db_bathroom = Bathroom.query.filter_by(latitude=self.latitude, longitude=self.longitude).first()
+    
+        if db_bathroom:
+            return True 
+        else: 
+            return False
+
+    def add_to_db(self):
+        """Checks if bathroom object is in the db, adds to db if not."""
+      
+        if not self.in_database():
+            db.session.add(self)
+            db.session.commit()
 
 class NamedList(db.Model):
     """Named lists for users to add bathrooms to (fave, least fave, etc)."""
@@ -258,6 +281,42 @@ def connect_to_db(app):
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
+
+
+def get_bathrooms_by_lat_long(latitude, longitude):
+    """Makes API call for bathrooms near that lat-long.
+        
+    Returns list of Bathroom objects."""
+        
+    # Get request object with bathrooms located near lat-long passed in."""
+    r = requests.get(f"https://www.refugerestrooms.org/api/v1/restrooms/by_location?page=1&per_page=10&offset=0&lat={latitude}&lng={longitude}")
+
+    # Get list of dictionaries from request object
+    bathrooms = r.json()
+    bathroom_objects = []
+
+    # Make bathroom object for each bathroom from request
+    for bathroom in bathrooms:
+        bathroom = Bathroom(name=bathroom['name'], directions=bathroom['directions'], notes=bathroom['comment'],
+                            state=bathroom['state'], city=bathroom['city'], country=bathroom['country'],
+                            latitude=bathroom['latitude'], longitude=bathroom['longitude'],
+                            accessible=bathroom['accessible'], unisex=bathroom['unisex'],
+                            changing_table=bathroom['changing_table'], approved=bathroom['approved'])
+            
+        # Add each bathroom object to the list of bathrooms 
+        bathroom_objects.append(bathroom)
+
+    # Return list of bathroom objects to be displayed to user
+    return bathroom_objects
+
+def add_bathrooms_to_db(bathrooms):
+    """Checks if bathrooms are in database, adds them if they are not.
+    
+    Takes in a list of Bathroom objects.
+    """
+    for bathroom in bathrooms:
+        if not bathroom.in_database():
+            bathroom.add_to_db()
 
 if __name__ == "__main__":
     # If run interactively, will be in state to work with db directly
