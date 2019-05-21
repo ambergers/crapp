@@ -33,7 +33,7 @@ class User(db.Model):
 
     # Define relationships
     lists = db.relationship("NamedList")
-    checkins = db.relationship("CheckIn")
+    checkins = db.relationship("Checkin")
     ratings = db.relationship("Rating", backref=db.backref("user"))
     
     def __init__(self, full_name, email, password=None):
@@ -83,7 +83,7 @@ class Bathroom(db.Model):
     is_premium = db.Column(db.Boolean, default=False, nullable=False)
 
     # Define relationships
-    checkins = db.relationship("CheckIn")
+    checkins = db.relationship("Checkin")
     ratings = db.relationship("Rating")
    
     def __init__(self, latitude, longitude, name=None, directions=None, notes=None, city=None, 
@@ -149,13 +149,6 @@ class Bathroom(db.Model):
         else: 
             return False
 
-    def add_to_db(self):
-        """Checks if bathroom object is in the db, adds to db if not."""
-      
-        if not self.in_database():
-            db.session.add(self)
-            db.session.commit()
-
 class NamedList(db.Model):
     """Named lists for users to add bathrooms to (fave, least fave, etc)."""
 
@@ -216,7 +209,7 @@ class ListItem(db.Model):
 
         return f"<ListItem list_id={self.list_id} user={self.user_id} bathroom={self.bathroom_id}>"
 
-class CheckIn(db.Model):
+class Checkin(db.Model):
     """Checkins when a user visits a bathroom."""
 
     __tablename__ = "checkins"
@@ -241,7 +234,7 @@ class CheckIn(db.Model):
         
 
     def __repr__(self):
-        """Provide helpful CheckIn representation when printed."""
+        """Provide helpful Checkin representation when printed."""
         
         return f"<Checkin id={self.checkin_id} user={self.user_id} bathroom={self.bathroom_id} date={self.checkin_datetime}>"
 
@@ -282,26 +275,30 @@ def connect_to_db(app):
     db.app = app
     db.init_app(app)
 
-
 def get_bathrooms_by_lat_long(latitude, longitude):
-    """Makes API call for bathrooms near that lat-long.
+    """Makes Refuge API call for bathrooms near that lat-long.
         
-    Returns list of Bathroom objects."""
+   Returns Response object. 
+   """
         
-    # Get request object with bathrooms located near lat-long passed in."""
-    r = requests.get(f"https://www.refugerestrooms.org/api/v1/restrooms/by_location?page=1&per_page=10&offset=0&lat={latitude}&lng={longitude}")
+    # Get request for bathrooms located near lat-long passed in."""
+    return requests.get(f"https://www.refugerestrooms.org/api/v1/restrooms/by_location?page=1&per_page=10&offset=0&lat={latitude}&lng={longitude}")
 
-    # Get list of dictionaries from request object
-    bathrooms = r.json()
+def get_bathroom_objs_from_request(response):
+    """Takes Response object with bathroom data from Refgue API, returns list of Bathroom objects."""
+
+    bathrooms = response.json()
+
+    # Get list of dictionaries from response object
     bathroom_objects = []
 
-    # Make bathroom object for each bathroom from request
+    # Make bathroom object for each bathroom from response 
     for bathroom in bathrooms:
-        bathroom = Bathroom(name=bathroom['name'], directions=bathroom['directions'], notes=bathroom['comment'],
-                            state=bathroom['state'], city=bathroom['city'], country=bathroom['country'],
-                            latitude=bathroom['latitude'], longitude=bathroom['longitude'],
-                            accessible=bathroom['accessible'], unisex=bathroom['unisex'],
-                            changing_table=bathroom['changing_table'], approved=bathroom['approved'])
+        bathroom = Bathroom(name=bathroom.get('name'), directions=bathroom.get('directions'), notes=bathroom.get('comment'),
+                            state=bathroom.get('state'), city=bathroom.get('city'), country=bathroom.get('country'),
+                            latitude=bathroom.get('latitude'), longitude=bathroom.get('longitude'),
+                            accessible=bathroom.get('accessible'), unisex=bathroom.get('unisex'),
+                            changing_table=bathroom.get('changing_table'), approved=bathroom.get('approved'))
             
         # Add each bathroom object to the list of bathrooms 
         bathroom_objects.append(bathroom)
@@ -316,7 +313,8 @@ def add_bathrooms_to_db(bathrooms):
     """
     for bathroom in bathrooms:
         if not bathroom.in_database():
-            bathroom.add_to_db()
+            db.session.add(bathroom)
+    db.session.commit()
 
 if __name__ == "__main__":
     # If run interactively, will be in state to work with db directly

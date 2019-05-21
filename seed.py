@@ -1,7 +1,7 @@
 """Utility file to seed bathroom, user, and list data to crapp database""" 
 import requests
 
-from model import (User, Bathroom, NamedList, ListItem, CheckIn, Rating,
+from model import (User, Bathroom, NamedList, ListItem, Checkin, Rating,
                    connect_to_db, db)
 from server import app
 from faker import Faker
