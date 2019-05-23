@@ -18,8 +18,8 @@ class TestBathroomHelpers(TestCase):
         # Connect to test database
         connect_to_db(server.app, "postgresql:///testdb")
      
-        # Create tables
-        db.create_all()
+        # Create tables not currently needed, here for future tests
+        # db.create_all()
 
         
     @patch('model.requests.get')
@@ -76,40 +76,20 @@ class TestBathroomHelpers(TestCase):
         # Get response
         response = get_bathrooms_by_lat_long('lat', 'long')
 
-        # Make sure first Bathroom object from the mock request is in returned list
-        self.assertIn([Bathroom(name="Quizno's", directions=None, notes=None, 
-                                state="CA", city="San Francisco", country="US",
-                                latitude=37.7872185, longitude=-122.4104286,
-                                accessible=False, unisex=True, changing_table=False,
-                                approved=True)
-                       ], get_bathroom_objs_from_request(response),
-                      )
+        # Use mocked response to get bathroom objects
+        bath_objs = get_bathroom_objs_from_request(response)
         
-        # # Make sure second Bathroom object from the mock request is in returned list
-        # self.assertIn([Bathroom(name="Academy of Art University", 
-        #                         directions="entrance level",
-        #                         notes="Only available for Academy students with ID", 
-        #                         state="CA", city="San Francisco", country="US",
-        #                         latitude=37.789732, longitude=-122.408567,
-        #                         accessible=False, unisex=True, changing_table=False,
-        #                         approved=True)
-        #                ], get_bathroom_objs_from_request(response),
-        #               )    
+        # Make sure latitude and longitude of each bathroom object returned
+        # matches mocked response json latitude and longitude as expected
+        self.assertEqual(bath_objs[0].latitude, 
+                         response_json_bathrooms[0]["latitude"])
+        self.assertEqual(bath_objs[0].longitude, 
+                         response_json_bathrooms[0]["longitude"])
+        self.assertEqual(bath_objs[1].latitude, 
+                         response_json_bathrooms[1]["latitude"])
+        self.assertEqual(bath_objs[1].longitude, 
+                         response_json_bathrooms[1]["longitude"])
 
-        # self.assertEqual(get_bathroom_objs_from_request(response),
-        #                  [Bathroom(name="Quizno's", directions=None, notes=None, 
-        #                            state="CA", city="San Francisco", country="US",
-        #                            latitude=37.7872185, longitude=-122.4104286,
-        #                            accessible=False, unisex=True, changing_table=False,
-        #                            approved=True),
-        #                   Bathroom(name="Academy of Art University", 
-        #                            directions="entrance level",
-        #                            notes="Only available for Academy students with ID", 
-        #                            state="CA", city="San Francisco", country="US",
-        #                            latitude=37.789732, longitude=-122.408567,
-        #                            accessible=False, unisex=True, changing_table=False,
-        #                            approved=True)
-        #                   ])
 
 if __name__ == "__main__":
     import unittest

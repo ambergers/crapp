@@ -270,8 +270,7 @@ def connect_to_db(app, database='postgresql:///crapp'):
     """Connect a database to flask app."""
 
     # Configure to use PostgreSQL db or whatever db is passed in
-    if database:
-        app.config['SQLALCHEMY_DATABASE_URI'] = database
+    app.config['SQLALCHEMY_DATABASE_URI'] = database
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)

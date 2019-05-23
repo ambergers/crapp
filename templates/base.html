@@ -1,18 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
+    {% block head %}
     <title>crApp</title>
+    {% endblock %}
   </head>
 
   <body>
-    <!-- Show flashed messages -->
-    {% with messages = get_flashed_messages() %}
-      {% for message in messages %}
-        <div class="alert alert-warning">{{ message }}</div>
-      {% endfor %}
-    {% endwith %}
                                                   
-    {% block content %} page specific content {% endblock %}
+    {% block body %} 
+    {% endblock %}
+
+    {% block scripts %}
+    <!--       <script
+        async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCW9gm0DCggVs3oySZt2W8dy7Fv1S7wTAQ&callback=initMap">
+      </script> -->
+    {% endblock %}
 
   </body>
 </html>

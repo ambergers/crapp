@@ -3,7 +3,7 @@
 from flask import Flask, render_template
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import connect_to_db
+from model import connect_to_db, db
 
 
 app = Flask(__name__)
@@ -21,4 +21,4 @@ if __name__ == "__main__":
     app.debug = True
     connect_to_db(app)
     DebugToolbarExtension(app)
-    app.run(host="0.0.0.0", port="5001")
+    app.run(host="0.0.0.0")
