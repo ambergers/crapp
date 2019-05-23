@@ -218,7 +218,7 @@ class Checkin(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     bathroom_id = db.Column(db.Integer, db.ForeignKey('bathrooms.bathroom_id'), nullable=False)
     checkin_datetime= db.Column(db.DateTime, nullable=False)
-    rating_id = db.Column(db.Integer, db.ForeignKey('ratings.rating_id'), nullable=True)
+    rating_id = db.Column(db.Integer, nullable=True)
 
     def __init__(self, user_id, bathroom_id, checkin_datetime=None, rating_id=None):
         self.user_id = user_id
@@ -266,11 +266,12 @@ class Rating(db.Model):
 #################################################################
 # Helper functions
 
-def connect_to_db(app):
-    """Connect database to flask app."""
+def connect_to_db(app, database='postgresql:///crapp'):
+    """Connect a database to flask app."""
 
-    # Configure to use PostgreSQL db
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///crapp'
+    # Configure to use PostgreSQL db or whatever db is passed in
+    if database:
+        app.config['SQLALCHEMY_DATABASE_URI'] = database
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
@@ -285,7 +286,7 @@ def get_bathrooms_by_lat_long(latitude, longitude):
     return requests.get(f"https://www.refugerestrooms.org/api/v1/restrooms/by_location?page=1&per_page=10&offset=0&lat={latitude}&lng={longitude}")
 
 def get_bathroom_objs_from_request(response):
-    """Takes Response object with bathroom data from Refgue API, returns list of Bathroom objects."""
+    """Takes Response object with bathroom data from Refuge API, returns list of Bathroom objects."""
 
     bathrooms = response.json()
 
