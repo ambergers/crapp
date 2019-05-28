@@ -1,4 +1,5 @@
 """Flask app for crApp project."""
+import json
 
 from flask import Flask, render_template
 from flask_debugtoolbar import DebugToolbarExtension
@@ -16,6 +17,19 @@ def homepage():
     """Show homepage."""
 
     return render_template('homepage.html')
+
+@app.route('/get_near_me')
+def get_near_me():
+    """Get bathrooms near user location using python."""
+
+    current_lat = 37.788934
+    current_long = -122.411241
+    
+    near_bathrooms_request = get_bathrooms_by_lat_long(current_lat, current_long)
+    near_bathrooms_list = near_bathrooms_request.json()
+    near_bathrooms_json = json.dumps(near_bathrooms_list)
+
+    return near_bathrooms_json
 
 @app.route('/near_me')
 def display_near_me():
