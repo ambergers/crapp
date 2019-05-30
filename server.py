@@ -18,7 +18,7 @@ def homepage():
 
     return render_template('homepage.html')
 
-@app.route('/get_near_me')
+@app.route('/get_near_me.json')
 def get_near_me():
     """Get bathrooms near user location using python."""
 
