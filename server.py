@@ -1,7 +1,8 @@
 """Flask app for crApp project."""
 import json
+import requests
 
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import (connect_to_db, db, get_bathrooms_by_lat_long,
@@ -18,29 +19,32 @@ def homepage():
 
     return render_template('homepage.html')
 
+@app.route('/location')
+
+
 @app.route('/get_near_me.json')
 def get_near_me():
     """Get bathrooms near user location using python."""
 
-    current_lat = 37.788934
-    current_long = -122.411241
+    current_lat = request.args.get("lat")
+    current_long = request.args.get("lng")
     
     near_bathrooms_request = get_bathrooms_by_lat_long(current_lat, current_long)
     near_bathrooms_list = near_bathrooms_request.json()
 
     return jsonify(near_bathrooms_list)
 
-@app.route('/near_me')
-def display_near_me():
-    """Show map with bathrooms near user's location."""
+# @app.route('/near_me')
+# def display_near_me():
+#     """Show map with bathrooms near user's location."""
     
-    current_lat = 37.788934
-    current_long = -122.411241
+#     current_lat = request.args.get("lat")
+#     current_long = request.args.get("lng")
     
-    near_bathroom_request = get_bathrooms_by_lat_long(current_lat, current_long)
-    near_bathrooms = get_bathroom_objs_from_request(near_bathroom_request)
+#     near_bathroom_request = get_bathrooms_by_lat_long(current_lat, current_long)
+#     near_bathrooms = get_bathroom_objs_from_request(near_bathroom_request)
 
-    return render_template('homepage.html', near_bathrooms=near_bathrooms)
+#     return render_template('homepage.html', near_bathrooms=near_bathrooms)
 
 @app.route('/lists')
 def user_lists():
