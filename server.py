@@ -2,7 +2,8 @@
 import json
 import requests
 
-from flask import Flask, render_template, jsonify, request
+from flask import (Flask, render_template, jsonify, request, flash, session, 
+                   redirect)
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import (connect_to_db, db, get_bathrooms_by_lat_long,
@@ -19,8 +20,62 @@ def homepage():
 
     return render_template('homepage.html')
 
-@app.route('/location')
+@app.route('/register', methods=["GET"])
+def display_reg_page():
+    """Send to reg page """
 
+    return render_template('reg-form.html')
+
+@app.route('/register', methods=["POST"])
+def process_reg():
+    """Process registration and redirect to homepage."""
+
+    # Retrieve variables from form and set to variables
+    user_email = request.form.get("email")
+    user_pswd = request.form.get("password")
+
+    # Try to get user from db, create user if not in db
+    try:
+        user_obj = User.query.filter_by(email=user_email, 
+                                        password=user_pswd).one()
+        flash("You're already registered. Go ahead and log in!")
+    except:
+        user_obj = User(email=user_email, password=user_pswd)
+        db.session.add(user_obj)
+        db.session.commit()
+
+    # Redirect to homepage
+    return redirect("/")
+
+@app.route("/login")
+def display_login():
+    return render_template('login-page.html')
+
+@app.route("/login-process", methods=["POST"])
+def process_login():
+    #retrieve email and password from login-form
+    user_email = request.form.get("email")
+    password = request.form.get("password")
+
+    try:
+        #check to see if user in db by email 
+        #if password matches, query database, retrieve user id and add to session
+        user_obj = User.query.filter_by(email=user_email, password=password).one()
+        session['user_id'] = user_obj.user_id
+        flash("Good job! You're logged in!!!")
+        url = "/users/" + str(session['user_id'])
+        return redirect(url)
+        
+    except:
+        flash("Uh oh! Password/email address is incorrect. It's okay...you can try again")
+        return redirect("/login")
+
+@app.route('/logout')
+def logout():
+   # remove the username from the session if it is there
+   session.pop('user_id', None)
+   flash("You're logged out. Cool.")
+   return redirect("/")
 
 @app.route('/get_near_me.json')
 def get_near_me():
@@ -33,18 +88,6 @@ def get_near_me():
     near_bathrooms_list = near_bathrooms_request.json()
 
     return jsonify(near_bathrooms_list)
-
-# @app.route('/near_me')
-# def display_near_me():
-#     """Show map with bathrooms near user's location."""
-    
-#     current_lat = request.args.get("lat")
-#     current_long = request.args.get("lng")
-    
-#     near_bathroom_request = get_bathrooms_by_lat_long(current_lat, current_long)
-#     near_bathrooms = get_bathroom_objs_from_request(near_bathroom_request)
-
-#     return render_template('homepage.html', near_bathrooms=near_bathrooms)
 
 @app.route('/lists')
 def user_lists():
