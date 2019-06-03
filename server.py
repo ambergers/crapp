@@ -2,12 +2,12 @@
 import json
 import requests
 
-from flask import (Flask, render_template, jsonify, request, flash, session, 
-                   redirect)
+from flask import (Flask, render_template, redirect, jsonify, request, flash, 
+                   session)
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import (connect_to_db, db, get_bathrooms_by_lat_long,
-                   get_bathroom_objs_from_request)
+                   get_bathroom_objs_from_request, User, Bathroom)
 
 
 app = Flask(__name__)
@@ -31,6 +31,7 @@ def process_reg():
     """Process registration and redirect to homepage."""
 
     # Retrieve variables from form and set to variables
+    user_full_name = request.form.get("full_name")
     user_email = request.form.get("email")
     user_pswd = request.form.get("password")
 
@@ -40,9 +41,10 @@ def process_reg():
                                         password=user_pswd).one()
         flash("You're already registered. Go ahead and log in!")
     except:
-        user_obj = User(email=user_email, password=user_pswd)
+        user_obj = User(full_name=user_full_name, email=user_email, password=user_pswd)
         db.session.add(user_obj)
         db.session.commit()
+        flash("You're now registered! Go ahead an log in.")
 
     # Redirect to homepage
     return redirect("/")

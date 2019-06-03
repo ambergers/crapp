@@ -8,13 +8,13 @@
 
   <body>
     <h1> crApp </h1>
-                                              
-    {% block body %}
-      {% with messages = get_flashed_messages() %}
-        {% for message in messages %}
-          <div class="alert alert-warning">{{ message }}</div>
-        {% endfor %}
-      {% endwith %} 
+    {% with messages = get_flashed_messages() %}
+      {% for message in messages %}
+        <div class="alert alert-warning">{{ message }}</div>
+      {% endfor %}
+    {% endwith %}
+                                 
+    {% block body %} 
     {% endblock %}
 
     {% block scripts %}
