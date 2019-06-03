@@ -83,8 +83,8 @@ class Bathroom(db.Model):
     is_premium = db.Column(db.Boolean, default=False, nullable=False)
 
     # Define relationships
-    checkins = db.relationship("Checkin")
-    ratings = db.relationship("Rating")
+    checkins = db.relationship("Checkin", backref=db.backref("bathroom"))
+    ratings = db.relationship("Rating", backref=db.backref("bathroom"))
    
     def __init__(self, latitude, longitude, name=None, directions=None, notes=None, city=None, 
                  state=None, country=None, unisex=None, accessible=None, changing_table=None, 
@@ -217,7 +217,7 @@ class Checkin(db.Model):
     checkin_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     bathroom_id = db.Column(db.Integer, db.ForeignKey('bathrooms.bathroom_id'), nullable=False)
-    checkin_datetime= db.Column(db.DateTime, nullable=False)
+    checkin_datetime = db.Column(db.DateTime, nullable=False)
     rating_id = db.Column(db.Integer, nullable=True)
 
     def __init__(self, user_id, bathroom_id, checkin_datetime=None, rating_id=None):

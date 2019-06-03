@@ -91,6 +91,16 @@ def get_near_me():
 
     return jsonify(near_bathrooms_list)
 
+@app.route('/users/<user_id>')
+def user_info(user_id):
+    """Show user info"""
+
+    #Get/query user object with user id
+    user = User.query.get(user_id)
+
+    #Send particular attributes to template
+    return render_template('user_hub.html', user=user)
+
 @app.route('/lists')
 def user_lists():
     """Show User's lists."""

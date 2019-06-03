@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<h1> My Stuff </h1>
+
+Lists:
+<ul style="list-style: none;">
+  {% for list in user.lists %}
+  <li>
+    {{ list.list_name }}
+  </li>
+  {% endfor %}
+</ul>
+
+Checkins:
+<ul style="list-style: none;">
+  {% for checkin in user.checkins %}
+  <li>
+    {% if checkin.bathroom.name %}
+      {{ checkin.bathroom.name }} - {{ checkin.checkin_datetime.strftime('%Y-%m-%d') }}
+    {% else %}
+      {{ checkin.checkin_datetime.strftime('%Y-%m-%d') }}
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+
+Ratings:
+<ul style="list-style: none;">
+  {% for rating in user.ratings %}
+  <li>
+    {% if rating.bathroom.name %}
+      {{ rating.bathroom.name }}
+    {% else %}
+      {{ rating.bathroom.bathroom_id }}
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+
+
+{% endblock %}
