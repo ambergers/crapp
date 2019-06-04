@@ -101,12 +101,19 @@ def user_info(user_id):
     #Send particular attributes to template
     return render_template('user_hub.html', user=user)
 
-@app.route('/lists')
-def user_lists():
+@app.route('/lists/<list_id>')
+def user_list(list_id):
     """Show User's lists."""
 
-    #TODO: Make user's list page
-    return render_template('user_lists.html')
+    if session.get('user_id'):
+        logged_in = session.get('user_id')
+        user = User.query.get(logged_in)
+        list_id = list_id
+        return render_template('list_items.html', user=user, list_id=list_id)
+    else:
+        flash("You must be logged in to view your lists.")
+        return redirect('/login')
+
 
 @app.route('/checkins')
 def user_checkins():
