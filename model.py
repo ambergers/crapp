@@ -85,7 +85,8 @@ class Bathroom(db.Model):
     # Define relationships
     checkins = db.relationship("Checkin", backref=db.backref("bathroom"))
     ratings = db.relationship("Rating", backref=db.backref("bathroom"))
-   
+    list_items = db.relationship("ListItem", backref=db.backref("bathroom"))
+    
     def __init__(self, latitude, longitude, name=None, directions=None, notes=None, city=None, 
                  state=None, country=None, unisex=None, accessible=None, changing_table=None, 
                  approved=False, is_premium=False):
@@ -179,6 +180,8 @@ class NamedList(db.Model):
         """Provide helpful NamedList representation when printed."""
 
         return f"<List id={self.list_id} name={self.list_name}>"
+
+    list_items = db.relationship("ListItem", backref=db.backref("named_list"))
 
 class ListItem(db.Model):
     """ListItems - bathrooms, user, named list they've been put on."""

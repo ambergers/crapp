@@ -7,7 +7,7 @@ from flask import (Flask, render_template, redirect, jsonify, request, flash,
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import (connect_to_db, db, get_bathrooms_by_lat_long,
-                   get_bathroom_objs_from_request, User, Bathroom)
+                   get_bathroom_objs_from_request, User, Bathroom, NamedList)
 
 
 app = Flask(__name__)
@@ -108,19 +108,11 @@ def user_list(list_id):
     if session.get('user_id'):
         logged_in = session.get('user_id')
         user = User.query.get(logged_in)
-        list_id = list_id
-        return render_template('list_items.html', user=user, list_id=list_id)
+        named_list = NamedList.query.get(list_id)
+        return render_template('list_items.html', user=user, named_list=named_list)
     else:
         flash("You must be logged in to view your lists.")
         return redirect('/login')
-
-
-@app.route('/checkins')
-def user_checkins():
-    """Show User's checkins."""
-
-    #TODO: Make user's checkins page
-    return render_template('user_checkins.html')
 
 @app.route('/ratings')
 def user_ratings():

@@ -1,10 +1,18 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<h1> List </h1>
-<!-- TODO:
-        change 'List' above to list name that was clicked on
-        show list items
--->
+<h1> {{ named_list.list_name }} </h1>
+
+<ul style="list-style: none;">
+{% for list_item in named_list.list_items %}
+  <li> 
+    {% if list_item.bathroom.name %}
+      {{ list_item.bathroom.name }}
+    {% else %}
+      {{ list_item.bathroom.bathroom_id }}
+    {% endif %}
+    - {{ list_item.bathroom.city }}
+  </li>
+{% endfor %}
 
 {% endblock %}
