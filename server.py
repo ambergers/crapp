@@ -8,7 +8,8 @@ from flask import (Flask, render_template, redirect, jsonify, request, flash,
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import (connect_to_db, db, get_bathrooms_by_lat_long,
-                   get_bathroom_objs_from_request, User, Bathroom, NamedList)
+                   get_bathroom_objs_from_request, User, Bathroom, NamedList,
+                   Checkin)
 
 
 app = Flask(__name__)
@@ -109,8 +110,8 @@ def show_user_list(list_id):
     """Show User's lists."""
 
     if session.get('user_id'):
-        logged_in = session.get('user_id')
-        user = User.query.get(logged_in)
+        user_id = session.get('user_id')
+        user = User.query.get(user_id)
         named_list = NamedList.query.get(list_id)
         return render_template('list_items.html', user=user, named_list=named_list)
     else:
@@ -121,9 +122,23 @@ def show_user_list(list_id):
 def show_checkin(bathroom_id):
     """Show checkin form."""
 
-    bathroom_id = bathroom_id
+    if session.get('user_id'):
+        user_id = session.get('user_id')
+        user = User.query.get(user_id)
+        bathroom_id = bathroom_id
 
-    return render_template('checkin.html')
+        # Make checkin object, add it to the db
+        checkin = Checkin(user_id, bathroom_id)
+        db.session.add(checkin)
+        db.session.commit()
+
+        # Get checkin_id from the checkin just created
+        checkin_id = checkin.checkin_id
+        return render_template('checkin.html', user_id=user_id,
+                                bathroom_id=bathroom_id, checkin_id=checkin_id)
+    else:
+        flash("You must be logged in to checkin.")
+        return redirect('/login')
 
 @app.route('/ratings')
 def show_user_ratings():

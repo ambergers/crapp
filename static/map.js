@@ -223,6 +223,7 @@ function addInfoWindowToMarker(marker, map) {
 }
 
 function checkIn() {
+    // TODO: Remove hard coded 37, change to bathroom_id for bathroom that was clicked
     window.location = '/checkin/37';
 
 }
