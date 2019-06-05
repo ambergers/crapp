@@ -7,7 +7,7 @@ Lists:
 <ul style="list-style: none;">
   {% for list in user.lists %}
   <li>
-    <a href="{{ url_for('user_list', list_id=list.list_id ) }}"> {{ list.list_name }} </a>
+    <a href="{{ url_for('show_user_list', list_id=list.list_id ) }}"> {{ list.list_name }} </a>
   </li>
   {% endfor %}
 </ul>

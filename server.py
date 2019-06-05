@@ -4,6 +4,7 @@ import requests
 
 from flask import (Flask, render_template, redirect, jsonify, request, flash, 
                    session)
+# from flask.ext.bcrypt import Bcrypt
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import (connect_to_db, db, get_bathrooms_by_lat_long,
@@ -11,6 +12,7 @@ from model import (connect_to_db, db, get_bathrooms_by_lat_long,
 
 
 app = Flask(__name__)
+# bcrypt = Bcrypt(app)
 # This is only temporary, will change later
 app.secret_key = 'SUpeRsecrEt'
 
@@ -65,8 +67,8 @@ def process_login():
         user_obj = User.query.filter_by(email=user_email, password=password).one()
         session['user_id'] = user_obj.user_id
         flash("Good job! You're logged in!!!")
-        url = "/users/" + str(session['user_id'])
-        return redirect(url)
+        # url = "/users/" + str(session['user_id'])
+        return redirect('/')
         
     except:
         flash("Uh oh! Password/email address is incorrect. It's okay...you can try again")
@@ -86,13 +88,14 @@ def get_near_me():
     current_lat = request.args.get("lat")
     current_long = request.args.get("lng")
     
-    near_bathrooms_request = get_bathrooms_by_lat_long(current_lat, current_long)
-    near_bathrooms_list = near_bathrooms_request.json()
+    # Makes request to refuge api by lat long
+    near_bathrooms_response = get_bathrooms_by_lat_long(current_lat, current_long)
+    near_bathrooms_list = near_bathrooms_response.json()
 
     return jsonify(near_bathrooms_list)
 
 @app.route('/users/<user_id>')
-def user_info(user_id):
+def show_user_info(user_id):
     """Show user info"""
 
     #Get/query user object with user id
@@ -102,7 +105,7 @@ def user_info(user_id):
     return render_template('user_hub.html', user=user)
 
 @app.route('/lists/<list_id>')
-def user_list(list_id):
+def show_user_list(list_id):
     """Show User's lists."""
 
     if session.get('user_id'):
@@ -115,7 +118,7 @@ def user_list(list_id):
         return redirect('/login')
 
 @app.route('/ratings')
-def user_ratings():
+def show_user_ratings():
     """Show User's checkins."""
 
     #TODO: Make user's ratings page
