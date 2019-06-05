@@ -10,7 +10,7 @@ var user_coords;
 
 // Function to initialize Google Map
 function initMap() {
-    const init_coords = { lat: 37.782884, lng: -122.418916 }
+    const init_coords = { lat: 37.782884, lng: -122.418916 };
 
     map = new google.maps.Map(document.getElementById('map'), {
         center: init_coords,
@@ -38,7 +38,7 @@ function initMap() {
         // Place user current location marker on map
         user_marker.setMap(map);
         // Add info window to user current location marker
-        addInfoWindowToMarker(user_marker, map)
+        addInfoWindowToUserMarker(user_marker, map)
 
           infoWindow.setPosition(user_coords);
           infoWindow.setContent('Location found.');
@@ -76,7 +76,7 @@ function geolocateUser() {
           lng: position.coords.longitude
         };
         // Remove all markers from map
-        deleteMarkers()
+        deleteMarkers();
         // make user current location marker
         user_marker = new google.maps.Marker({ 
           position: user_coords, 
@@ -87,7 +87,7 @@ function geolocateUser() {
         // Place user current location marker on map
         user_marker.setMap(map);
         // Add info window to user current location marker
-        addInfoWindowToMarker(user_marker, map)
+        addInfoWindowToUserMarker(user_marker, map)
 
           infoWindow.setPosition(user_coords);
           infoWindow.setContent('Location found.');
@@ -115,15 +115,15 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 // Gets text from given route and converts to json
 function getNearBathrooms(response) {
     // Grab the inner body text from the response route
-    const bathroom_json = response
+    const bathroom_json = response;
     // Loop through bathrooms from response
     for (const bathroom of bathroom_json) {
         console.log(bathroom.name, bathroom.latitude, bathroom.longitude);
 
         // Make marker for bathroom and set to map
         let position = {}
-        position["lat"] = bathroom.latitude
-        position["lng"] = bathroom.longitude
+        position["lat"] = bathroom.latitude;
+        position["lng"] = bathroom.longitude;
         const marker = new google.maps.Marker({
             position: position, 
             map: map, 
@@ -137,36 +137,12 @@ function getNearBathrooms(response) {
 
 function handleGetBathrooms(evt) {
     evt.preventDefault();
-    user_coords = geolocateUser()
-    console.log(user_coords)
+    user_coords = geolocateUser();
 
     $.get('/get_near_me.json', user_coords, getNearBathrooms);
 }
 
 $('#search_near_me').on('click', handleGetBathrooms);
-    // const locations = [
-    //     {
-    //         name: "Quizno's",
-    //         coords: { lat: 37.7872185, lng: -122.4104286 }
-    //     },
-    //     {
-    //         name: "Academy of Art University",
-    //         coords: { lat: 37.789732 , lng: -122.408567 }
-    //     },
-    //   ];
-
-    // Loop over locations to make markers for each location
-    // const markers = locations.map(location => {
-    //     return addMarker(icon, location.coords, location.name, map);
-    // });
-
-    // Loop over markers to attach click handlers
-    // markers.forEach(marker => {
-    //     addInfoWindowToMarker(marker, map)
-    // })
-
-
-
 
 
 /*
@@ -206,7 +182,7 @@ function deleteMarkers() {
 
 // Changes marker position to given latitude and longitude
 function changeMarkerPos(latitude, longitude) {
-    myLatLng = new google.maps.LatLng(latitude, longitude)
+    myLatLng = new google.maps.LatLng(latitude, longitude);
     marker.setPosition(myLatLng);
     map.panTo(myLatLng);
 }
@@ -230,7 +206,9 @@ function addInfoWindowToMarker(marker, map) {
   const content = `<h1>${marker.title}</h1>
       <p>
         <b>Lat:</b> ${marker.position.lat()}</br>
-        <b>Lng:</b> ${marker.position.lng()}</br>
+        <b>Lng:</b> ${marker.position.lng()}</br></br>
+        <button type="button" id="checkin" onclick="checkIn()">Check In</button>
+      </p>
       `;
 
   const infoWindow = new google.maps.InfoWindow({ 
@@ -241,6 +219,23 @@ function addInfoWindowToMarker(marker, map) {
   marker.addListener('click', () => {
     infoWindow.open(map, marker);
   });
+
 }
 
+function checkIn() {
+    window.location = '/checkin/37';
 
+}
+
+function addInfoWindowToUserMarker(user_marker, map) {
+  const content = `<h1>${user_marker.title}</h1>`;
+
+  const infoWindow = new google.maps.InfoWindow({ 
+    content,
+    maxWidth: 200
+  });
+
+  user_marker.addListener('click', () => {
+    infoWindow.open(map, user_marker);
+  });
+}

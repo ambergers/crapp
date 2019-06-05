@@ -117,9 +117,17 @@ def show_user_list(list_id):
         flash("You must be logged in to view your lists.")
         return redirect('/login')
 
+@app.route('/checkin/<bathroom_id>')
+def show_checkin(bathroom_id):
+    """Show checkin form."""
+
+    bathroom_id = bathroom_id
+
+    return render_template('checkin.html')
+
 @app.route('/ratings')
 def show_user_ratings():
-    """Show User's checkins."""
+    """Show User's ratings."""
 
     #TODO: Make user's ratings page
     return render_template('user_ratings.html')
