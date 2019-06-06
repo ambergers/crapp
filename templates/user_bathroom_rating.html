@@ -1,5 +1,16 @@
 {% extends 'base.html' %}
 
 {% block body %}
+  <p>
+    {% if rating.bathroom.name %}
+      <b>{{ rating.bathroom.name }}</b>
+    {% else %}
+      <b>{{ rating.bathroom.bathroom_id }}</b>
+    {% endif %}
+  </p> 
+  <p>
+    Score: {{ rating.score }}
+  </p>
+    Review: {{ rating.review_text }}
 
 {% endblock %}

@@ -168,8 +168,6 @@ def process_rate_bathroom(bathroom_id, checkin_id):
                         score=score, 
                         review_text=review_text)
 
-        print(rating)
-        print(rating.review_text)
         flash("Rating submitted. Thanks!")
         return redirect('/')
     else:
@@ -180,7 +178,8 @@ def process_rate_bathroom(bathroom_id, checkin_id):
 def show_user_bathroom_rating(rating_id):
     """Show User's rating for a bathroom."""
 
-    return render_template('user_bathroom_rating.html', rating_id=rating_id)
+    rating = Rating.query.filter_by(rating_id=rating_id).first()
+    return render_template('user_bathroom_rating.html', rating=rating)
 
 if __name__ == "__main__":
     app.debug = True

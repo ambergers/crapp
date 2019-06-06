@@ -22,7 +22,7 @@ Checkins:
     {% else %}
         {{ checkin.checkin_datetime.strftime('%Y-%m-%d') }}
     {% endif %}
-      <!-- Check if user has already rated this checkin, add button to rate if not -->
+    <!-- Check if user has already rated this checkin, add button to rate if not -->
     {% if checkin.rating %}
         <button type="button" id="{{ checkin.checkin_id }}">View Rating</button>
         <script>
