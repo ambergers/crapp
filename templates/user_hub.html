@@ -29,16 +29,14 @@ Checkins:
         document.getElementById("{{ checkin.checkin_id }}").addEventListener('click', function() {
           const url = '/rating/{{ checkin.rating.rating_id }}';
           window.location = url;
-          console.log("has rating, rating_id: {{ checkin.rating.rating_id }}");
         })
         </script>
     {% else %}
-        <button type="button" id="{{ checkin.checkin_id }}">Add Rating</button>
+        <button type="button" id="checkin{{ checkin.checkin_id }}">Add Rating</button>
         <script>
-        document.getElementById("{{ checkin.checkin_id }}").addEventListener('click', function() {
+        document.getElementById("checkin{{ checkin.checkin_id }}").addEventListener('click', function() {
           const url = '/rate/{{ checkin.bathroom.bathroom_id }}/{{ checkin.checkin_id}}';
           window.location = url;
-          console.log("rating: {{ checkin.rating }}");
         })
         </script>
     {% endif %}
@@ -55,6 +53,13 @@ Ratings:
     {% else %}
       {{ rating.bathroom.bathroom_id }}
     {% endif %}
+    <button type="button" id="rating{{ rating.rating_id }}">View Rating</button>
+    <script>
+      document.getElementById("rating{{ rating.rating_id }}").addEventListener('click', function() {
+        const url = '/rating/{{ rating.rating_id }}';
+        window.location = url;
+      })
+    </script>
   </li>
   {% endfor %}
 </ul>
