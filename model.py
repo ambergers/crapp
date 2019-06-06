@@ -86,7 +86,7 @@ class Bathroom(db.Model):
     checkins = db.relationship("Checkin", backref=db.backref("bathroom"))
     ratings = db.relationship("Rating", backref=db.backref("bathroom"))
     list_items = db.relationship("ListItem", backref=db.backref("bathroom"))
-    
+
     def __init__(self, latitude, longitude, name=None, directions=None, notes=None, city=None, 
                  state=None, country=None, unisex=None, accessible=None, changing_table=None, 
                  approved=False, is_premium=False):
@@ -223,6 +223,8 @@ class Checkin(db.Model):
     checkin_datetime = db.Column(db.DateTime, nullable=False)
     rating_id = db.Column(db.Integer, nullable=True)
 
+    rating = db.relationship("Rating", uselist=False)
+
     def __init__(self, user_id, bathroom_id, checkin_datetime=None, rating_id=None):
         self.user_id = user_id
         self.bathroom_id = bathroom_id
@@ -235,7 +237,6 @@ class Checkin(db.Model):
         if rating_id:
             self.rating_id = rating_id
         
-
     def __repr__(self):
         """Provide helpful Checkin representation when printed."""
         

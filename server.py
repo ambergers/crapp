@@ -176,12 +176,11 @@ def process_rate_bathroom(bathroom_id, checkin_id):
         flash("You must be logged in to add a rating.")
         return redirect('/login')
 
-@app.route('/ratings')
-def show_user_ratings():
-    """Show User's ratings."""
+@app.route('/rating/<rating_id>')
+def show_user_bathroom_rating(rating_id):
+    """Show User's rating for a bathroom."""
 
-    #TODO: Make user's ratings page
-    return render_template('user_ratings.html')
+    return render_template('user_bathroom_rating.html', rating_id=rating_id)
 
 if __name__ == "__main__":
     app.debug = True
