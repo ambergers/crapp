@@ -6,10 +6,10 @@
 
 {% block body %}
 
-<h1> Rating </h1>
-<form>
+<form action={{ url_for("process_rate_bathroom", bathroom_id=bathroom_id, checkin_id=checkin_id) }} method="POST">
+  How was your experience?</br>
     <span class="star-cb-group">
-      <input type="radio" id="rating-5" name="rating" value="5" />
+      <input type="radio" id="rating-5" name="rating" value="5" required/>
       <label for="rating-5">5</label>
       <input type="radio" id="rating-4" name="rating" value="4" />
       <label for="rating-4">4</label>
@@ -21,7 +21,11 @@
       <label for="rating-1">1</label>
       <input type="radio" id="rating-0" name="rating" value="0" class="star-cb-clear" />
       <label for="rating-0">0</label>
-    </span>  
+    </span> 
+    <p> 
+    <textarea name="review_text" cols="50" rows="10" maxlength="200" placeholder="Any Comments?"></textarea>
+    </p>
+    <input type="submit" name="submit" value="Rate">
 </form>
 
 {% endblock %}

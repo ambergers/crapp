@@ -9,7 +9,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from model import (connect_to_db, db, get_bathrooms_by_lat_long,
                    get_bathroom_objs_from_request, User, Bathroom, NamedList,
-                   Checkin)
+                   Checkin, Rating)
 
 
 app = Flask(__name__)
@@ -124,7 +124,6 @@ def show_checkin(bathroom_id):
 
     if session.get('user_id'):
         user_id = session.get('user_id')
-        bathroom_id = bathroom_id
 
         # Make checkin object, add it to the db
         checkin = Checkin(user_id, bathroom_id)
@@ -156,9 +155,26 @@ def show_rate_bathroom_form(bathroom_id, checkin_id):
 @app.route('/rate/<bathroom_id>/<checkin_id>', methods=['POST'])
 def process_rate_bathroom(bathroom_id, checkin_id):
     """Process user rating and add to db."""
-    pass
+    
+    if session.get('user_id'):
+        user_id = session.get('user_id')
+        score = request.form.get('rating')
+        review_text = request.form.get('review_text')
 
+        # Make Rating object and add to db
+        rating = Rating(user_id=user_id, 
+                        bathroom_id=bathroom_id,
+                        checkin_id=checkin_id,
+                        score=score, 
+                        review_text=review_text)
 
+        print(rating)
+        print(rating.review_text)
+        flash("Rating submitted. Thanks!")
+        return redirect('/')
+    else:
+        flash("You must be logged in to add a rating.")
+        return redirect('/login')
 
 @app.route('/ratings')
 def show_user_ratings():
