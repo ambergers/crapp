@@ -1,11 +1,21 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<h1> Great! You've checked in! </h1>
+<h1> Great! You've checked in. </h1>
     Would you like to rate this bathroom?
     </br></br>
     <button type="button" id="do_rate">Yes</button>
     <button type="button" id="dont_rate">No</button>
 
+<script>
+  document.getElementById("do_rate").addEventListener('click', function() {
+    const url = '/rate/{{ bathroom_id }}/{{checkin_id}}';
+    window.location = url;
+  })
 
+  document.getElementById("dont_rate").addEventListener('click', function() {
+    const url = '/';
+    window.location = url;
+  })
+</script>
 {% endblock %}

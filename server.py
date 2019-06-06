@@ -124,7 +124,6 @@ def show_checkin(bathroom_id):
 
     if session.get('user_id'):
         user_id = session.get('user_id')
-        user = User.query.get(user_id)
         bathroom_id = bathroom_id
 
         # Make checkin object, add it to the db
@@ -134,11 +133,32 @@ def show_checkin(bathroom_id):
 
         # Get checkin_id from the checkin just created
         checkin_id = checkin.checkin_id
-        return render_template('checkin.html', user_id=user_id,
-                                bathroom_id=bathroom_id, checkin_id=checkin_id)
+        return render_template('checkin.html', 
+                               bathroom_id=bathroom_id, 
+                               checkin_id=checkin_id)
     else:
         flash("You must be logged in to checkin.")
         return redirect('/login')
+
+@app.route('/rate/<bathroom_id>/<checkin_id>', methods=["GET"])
+def show_rate_bathroom_form(bathroom_id, checkin_id):
+    """Show form for user to rate a bathroom."""
+
+    if session.get('user_id'):
+        user_id = session.get('user_id')
+        return render_template('rating_form.html',
+                               bathroom_id=bathroom_id,
+                               checkin_id=checkin_id)
+    else:
+        flash("You must be logged in to rate a bathroom.")
+        return redirect('/login')
+
+@app.route('/rate/<bathroom_id>/<checkin_id>', methods=['POST'])
+def process_rate_bathroom(bathroom_id, checkin_id):
+    """Process user rating and add to db."""
+    pass
+
+
 
 @app.route('/ratings')
 def show_user_ratings():
