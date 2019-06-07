@@ -6,7 +6,14 @@
 
 {% block body %}
 
-<form action={{ url_for("process_rate_bathroom", bathroom_id=bathroom_id, checkin_id=checkin_id) }} method="POST">
+{% if bathroom.name %}
+  <b>{{ bathroom.name }} - {{ checkin.checkin_datetime.strftime('%Y-%m-%d') }}</b>
+{% else %}
+  <b>{{ bathroom.bathroom_id }} - {{ checkin.checkin_datetime.strftime('%Y-%m-%d') }}</b>
+{% endif %}
+</br></br>
+
+<form action={{ url_for("process_rate_bathroom", bathroom_id=bathroom.bathroom_id, checkin_id=checkin.checkin_id) }} method="POST">
   How was your experience?</br>
     <span class="star-cb-group">
       <input type="radio" id="rating-5" name="rating" value="5" required/>

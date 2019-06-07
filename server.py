@@ -143,7 +143,7 @@ def process_add_list_form():
         db.session.add(list_to_add)
         db.session.commit()
         flash('Success! Your list has been created.')
-        
+
         return redirect(url_for('show_user_info', user_id=user_id))
     else:
         flash("You must be logged in to add a list.")
@@ -176,9 +176,11 @@ def show_rate_bathroom_form(bathroom_id, checkin_id):
 
     if session.get('user_id'):
         user_id = session.get('user_id')
+        bathroom = Bathroom.query.get(bathroom_id)
+        checkin = Checkin.query.get(checkin_id)
         return render_template('rating_form.html',
-                               bathroom_id=bathroom_id,
-                               checkin_id=checkin_id)
+                               bathroom=bathroom,
+                               checkin=checkin)
     else:
         flash("You must be logged in to rate a bathroom.")
         return redirect('/login')
@@ -198,7 +200,8 @@ def process_rate_bathroom(bathroom_id, checkin_id):
                         checkin_id=checkin_id,
                         score=score, 
                         review_text=review_text)
-
+        db.session.add(rating)
+        db.session.commit()
         flash("Rating submitted. Thanks!")
         return redirect('/')
     else:
