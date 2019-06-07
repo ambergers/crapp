@@ -3,13 +3,22 @@
 
 <h1> My Stuff </h1>
 
-Lists:
+My Lists:
 <ul style="list-style: none;">
   {% for list in user.lists %}
   <li>
     <a href="{{ url_for('show_user_list', list_id=list.list_id ) }}"> {{ list.list_name }} </a>
   </li>
   {% endfor %}
+  </br>
+
+  <!-- Button for user to add a NamedList -->
+  <button type="button" id="add_named_list">Add List</button>
+  <script>
+    document.getElementById('add_named_list').addEventListener('click', function() {
+        window.location = '/add_list'
+    })
+  </script>
 </ul>
 
 Checkins:

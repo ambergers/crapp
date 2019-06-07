@@ -3,7 +3,7 @@ import json
 import requests
 
 from flask import (Flask, render_template, redirect, jsonify, request, flash, 
-                   session)
+                   session, url_for)
 # from flask.ext.bcrypt import Bcrypt
 from flask_debugtoolbar import DebugToolbarExtension
 
@@ -118,6 +118,37 @@ def show_user_list(list_id):
         flash("You must be logged in to view your lists.")
         return redirect('/login')
 
+@app.route('/add_list', methods=["GET"])
+def show_add_list_form():
+    """Show form for user to add a NamedList."""
+
+    if session.get('user_id'):
+        user_id = session.get('user_id')
+        user = User.query.get(user_id)
+        return render_template('add_list.html', user=user)
+    else:
+        flash("You must be logged in to add a list.")
+        return redirect('/login')
+
+@app.route('/add_list', methods=["POST"])
+def process_add_list_form():
+    """Process form and add list to db."""
+
+    if session.get('user_id'):
+        user_id = session.get('user_id')
+        form_list = request.form.get('list_to_add')
+
+        # Make NamedList object and add to db
+        list_to_add = NamedList(list_name=form_list, user_id=user_id)
+        db.session.add(list_to_add)
+        db.session.commit()
+        flash('Success! Your list has been created.')
+        
+        return redirect(url_for('show_user_info', user_id=user_id))
+    else:
+        flash("You must be logged in to add a list.")
+        return redirect('/login')
+
 @app.route('/checkin/<bathroom_id>')
 def show_checkin(bathroom_id):
     """Show checkin form."""
@@ -185,4 +216,4 @@ if __name__ == "__main__":
     app.debug = True
     connect_to_db(app)
     DebugToolbarExtension(app)
-    app.run(host="0.0.0.0", port="5001")
+    app.run(host="0.0.0.0", port="5000")
