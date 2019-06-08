@@ -4,7 +4,9 @@
 <h1> {{ named_list.list_name }} </h1>
 
 <ul style="list-style: none;">
+{% set listed_bathrooms = [] %}
 {% for list_item in named_list.list_items %}
+  {% do listed_bathrooms.append(list_item.bathroom) %}
   <li> 
     {% if list_item.bathroom.name %}
       {{ list_item.bathroom.name }}
@@ -14,5 +16,21 @@
     - {{ list_item.bathroom.city }}
   </li>
 {% endfor %}
+</ul>
 
+<h3>Add to this list?</h3>
+<ul style="list-style: none;">
+{% for bathroom in bathrooms %}
+  <li> 
+    {% if bathroom not in listed_bathrooms %}
+      {% if bathroom.name %}
+        {{ bathroom.name }}
+      {% else %}
+        {{ bathroom.bathroom_id }}
+      {% endif %}
+      - {{ bathroom.city }}
+    {% endif %}
+  </li>
+{% endfor %}
+</ul>
 {% endblock %}

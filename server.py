@@ -11,8 +11,8 @@ from model import (connect_to_db, db, get_bathrooms_by_lat_long,
                    get_bathroom_objs_from_request, User, Bathroom, NamedList,
                    Checkin, Rating)
 
-
 app = Flask(__name__)
+app.jinja_env.add_extension('jinja2.ext.do')
 # bcrypt = Bcrypt(app)
 # This is only temporary, will change later
 app.secret_key = 'SUpeRsecrEt'
@@ -113,7 +113,13 @@ def show_user_list(list_id):
         user_id = session.get('user_id')
         user = User.query.get(user_id)
         named_list = NamedList.query.get(list_id)
-        return render_template('list_items.html', user=user, named_list=named_list)
+        checkins = user.checkins
+        bathrooms = db.session.query(Bathroom).join(Checkin).filter(Checkin.user_id == user_id).all()
+
+        return render_template('list_items.html', 
+                                user=user, 
+                                named_list=named_list, 
+                                bathrooms=bathrooms)
     else:
         flash("You must be logged in to view your lists.")
         return redirect('/login')
