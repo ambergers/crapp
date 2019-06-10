@@ -29,6 +29,14 @@
         {{ bathroom.bathroom_id }}
       {% endif %}
       - {{ bathroom.city }}
+    <!-- Add button to add bathroom to user's list if it's not already on it -->  
+    <button type="button" id="{{ bathroom.bathroom_id }}">Add to List</button>
+    <script>
+    document.getElementById("{{ bathroom.bathroom_id }}").addEventListener('click', function() {
+      const url = '/add_list_item/{{ bathroom.bathroom_id }}/{{ named_list.list_id }}';
+      window.location = url;
+    })
+    </script>  
     {% endif %}
   </li>
 {% endfor %}

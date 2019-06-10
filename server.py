@@ -9,7 +9,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from model import (connect_to_db, db, get_bathrooms_by_lat_long,
                    get_bathroom_objs_from_request, User, Bathroom, NamedList,
-                   Checkin, Rating)
+                   Checkin, Rating, ListItem)
 
 app = Flask(__name__)
 app.jinja_env.add_extension('jinja2.ext.do')
@@ -154,6 +154,26 @@ def process_add_list_form():
     else:
         flash("You must be logged in to add a list.")
         return redirect('/login')
+
+@app.route('/add_list_item/<bathroom_id>/<list_id>')
+def process_add_list_item(bathroom_id, list_id):
+    """Adds specified bathroom to user's specified list."""
+
+    if session.get('user_id'):
+        user_id = session.get('user_id')
+
+        # Make ListItem object and add to db.
+        list_item = ListItem(user_id=user_id, list_id=list_id, bathroom_id=bathroom_id)
+        db.session.add(list_item)
+        db.session.commit()
+
+        flash("The bathroom has been added to your list. Cool!")
+        return redirect(url_for('show_user_list', list_id=list_id))
+    else:
+        flash("You must be logged in to add a list.")
+        return redirect('/login')
+
+
 
 @app.route('/checkin/<bathroom_id>')
 def show_checkin(bathroom_id):
