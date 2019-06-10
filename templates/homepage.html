@@ -14,29 +14,6 @@
 {% endblock %}
 
 {% block body %}
-  {% if session['user_id'] %}
-    <button type="button" id="login_logout">Logout</button>
-    <button type="button" id="to_user_account">My Account</button>
-  {% else %}
-    <button type="button" id="login_logout">Login</button>
-  {% endif %}
-  
-    </br></br>
-
-  <script>
-    "use strict";
-
-    const loginLogoutBtn = $('#login_logout');
-
-    loginLogoutBtn.on('click', () => {
-      if ($('#login_logout').text() === 'Login') {
-        window.location = '/login';
-      } else {
-        window.location = '/logout';
-      }
-    });
-  </script>
-
   <div id="map"></div>
     </br>
   <button type="button" id="search_near_me">Search Near Me</button>
