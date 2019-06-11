@@ -14,7 +14,223 @@ function initMap() {
 
     map = new google.maps.Map(document.getElementById('map'), {
         center: init_coords,
-        zoom: 14
+        zoom: 15,
+        styles: [
+          {
+            "elementType": "labels.text.fill",
+            "stylers": [
+              {
+                "color": "#274580"
+              }
+            ]
+          },
+          {
+            "elementType": "labels.text.stroke",
+            "stylers": [
+              {
+                "color": "#f5f1e6"
+              }
+            ]
+          },
+          {
+            "featureType": "administrative",
+            "elementType": "geometry.stroke",
+            "stylers": [
+              {
+                "color": "#c9b2a6"
+              }
+            ]
+          },
+          {
+            "featureType": "administrative.land_parcel",
+            "elementType": "geometry.stroke",
+            "stylers": [
+              {
+                "color": "#dcd2be"
+              }
+            ]
+          },
+          {
+            "featureType": "landscape.natural",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "color": "#dfd4b0"
+              }
+            ]
+          },
+          {
+            "featureType": "poi",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "color": "#dfd2ae"
+              }
+            ]
+          },
+          {
+            "featureType": "poi.attraction",
+            "elementType": "labels.icon",
+            "stylers": [
+              {
+                "color": "#4f5e80"
+              }
+            ]
+          },
+          {
+            "featureType": "poi.business",
+            "elementType": "labels.icon",
+            "stylers": [
+              {
+                "color": "#4f5e80"
+              }
+            ]
+          },
+          {
+            "featureType": "poi.government",
+            "elementType": "labels.icon",
+            "stylers": [
+              {
+                "color": "#4f5e80"
+              }
+            ]
+          },
+          {
+            "featureType": "poi.medical",
+            "elementType": "labels.icon",
+            "stylers": [
+              {
+                "color": "#4f5e80"
+              }
+            ]
+          },
+          {
+            "featureType": "poi.park",
+            "elementType": "labels.icon",
+            "stylers": [
+              {
+                "color": "#4f5e80"
+              }
+            ]
+          },
+          {
+            "featureType": "poi.place_of_worship",
+            "elementType": "labels.icon",
+            "stylers": [
+              {
+                "color": "#4f5e80"
+              }
+            ]
+          },
+          {
+            "featureType": "poi.school",
+            "elementType": "labels.icon",
+            "stylers": [
+              {
+                "color": "#4f5e80"
+              }
+            ]
+          },
+          {
+            "featureType": "poi.sports_complex",
+            "elementType": "labels.icon",
+            "stylers": [
+              {
+                "color": "#4f5e80"
+              }
+            ]
+          },
+          {
+            "featureType": "road",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "color": "#f5f1e6"
+              }
+            ]
+          },
+          {
+            "featureType": "road",
+            "elementType": "geometry.fill",
+            "stylers": [
+              {
+                "color": "#dcd2be"
+              }
+            ]
+          },
+          {
+            "featureType": "road.highway",
+            "elementType": "geometry.stroke",
+            "stylers": [
+              {
+                "color": "#c29e55"
+              }
+            ]
+          },
+          {
+            "featureType": "road.local",
+            "elementType": "labels.text.fill",
+            "stylers": [
+              {
+                "color": "#274580"
+              }
+            ]
+          },
+          {
+            "featureType": "transit.line",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "color": "#dfd2ae"
+              }
+            ]
+          },
+          {
+            "featureType": "transit.line",
+            "elementType": "labels.text.fill",
+            "stylers": [
+              {
+                "color": "#274580"
+              }
+            ]
+          },
+          {
+            "featureType": "transit.line",
+            "elementType": "labels.text.stroke",
+            "stylers": [
+              {
+                "color": "#ebe3cd"
+              }
+            ]
+          },
+          {
+            "featureType": "transit.station",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "color": "#dfd2ae"
+              }
+            ]
+          },
+          {
+            "featureType": "water",
+            "elementType": "geometry.fill",
+            "stylers": [
+              {
+                "color": "#98aed1"
+              }
+            ]
+          },
+          {
+            "featureType": "water",
+            "elementType": "labels.text.fill",
+            "stylers": [
+              {
+                "color": "#274580"
+              }
+            ]
+          }
+        ]
     });
 
     const infoWindow = new google.maps.InfoWindow;

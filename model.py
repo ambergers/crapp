@@ -286,7 +286,7 @@ def get_bathrooms_by_lat_long(latitude, longitude):
    """
         
     # Get request for bathrooms located near lat-long passed in."""
-    return requests.get(f"https://www.refugerestrooms.org/api/v1/restrooms/by_location?page=1&per_page=20&offset=0&lat={latitude}&lng={longitude}")
+    return requests.get(f"https://www.refugerestrooms.org/api/v1/restrooms/by_location?page=1&per_page=30&offset=0&lat={latitude}&lng={longitude}")
 
 def get_bathroom_objs_from_request(response):
     """Takes Response object with bathroom data from Refuge API, returns list of Bathroom objects."""

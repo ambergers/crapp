@@ -13,12 +13,13 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-md navbar-light" style="background-color: #42f489;">
+    <nav class="navbar navbar-expand-md navbar-light fixed-top" style="background-color: #284580;">
       <a class="navbar-brand" href="#">crApp</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapseContent" aria-controls="navbarCollapseContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
+
+      <div class="collapse navbar-collapse" id="navbarCollapseContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
             <a class="nav-link" href="/">Home</a>
@@ -26,9 +27,9 @@
           <li class="nav-item active">
             <a class="nav-link" href="/about">About</a>
           </li>
-        </ul>  
+        </ul> 
+
         <ul class="navbar-nav m1-auto">
-          
           {% if session['user_id'] %}
             <li class="nav-item">
               <a class="nav-link" href="/logout">Logout</a>
@@ -41,7 +42,6 @@
               <a class="nav-link" href="/login">Login</a>
             </li>
           {% endif %}
-
         </ul>
       </div>
     </nav>
