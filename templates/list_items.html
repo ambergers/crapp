@@ -1,44 +1,53 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<h1> {{ named_list.list_name }} </h1>
+</br>
+<div class="container">
+  <h3>{{ named_list.list_name }}:</h3>
+  <div>
+    <ul style="list-style: none;">
+    {% set listed_bathrooms = [] %}
+    {% for list_item in named_list.list_items %}
+      {% do listed_bathrooms.append(list_item.bathroom) %}
+      <li> 
+        {% if list_item.bathroom.name %}
+          {{ list_item.bathroom.name }}
+        {% else %}
+          {{ list_item.bathroom.bathroom_id }}
+        {% endif %}
+        - {{ list_item.bathroom.city }}
+      </li>
+    {% endfor %}
+    </ul>
+  </div>
+</div>
 
-<ul style="list-style: none;">
-{% set listed_bathrooms = [] %}
-{% for list_item in named_list.list_items %}
-  {% do listed_bathrooms.append(list_item.bathroom) %}
-  <li> 
-    {% if list_item.bathroom.name %}
-      {{ list_item.bathroom.name }}
-    {% else %}
-      {{ list_item.bathroom.bathroom_id }}
-    {% endif %}
-    - {{ list_item.bathroom.city }}
-  </li>
-{% endfor %}
-</ul>
+<div class="container">
+  <h3>Add to this list?</h3>
+  <div>
+    <ul style="list-style: none;">
+    {% for bathroom in bathrooms %}
+      <li> 
+        {% if bathroom not in listed_bathrooms %}
+          {% if bathroom.name %}
+            {{ bathroom.name }}
+          {% else %}
+            {{ bathroom.bathroom_id }}
+          {% endif %}
+          - {{ bathroom.city }}
+        <!-- Add button to add bathroom to user's list if it's not already on it -->  
+        <button type="button" id="{{ bathroom.bathroom_id }}">Add</button>
+        <script>
+        document.getElementById("{{ bathroom.bathroom_id }}").addEventListener('click', function() {
+          const url = '/add_list_item/{{ bathroom.bathroom_id }}/{{ named_list.list_id }}';
+          window.location = url;
+        })
+        </script>  
+        {% endif %}
+      </li>
+    {% endfor %}
+    </ul>
+  </div>
+</div>
 
-<h3>Add to this list?</h3>
-<ul style="list-style: none;">
-{% for bathroom in bathrooms %}
-  <li> 
-    {% if bathroom not in listed_bathrooms %}
-      {% if bathroom.name %}
-        {{ bathroom.name }}
-      {% else %}
-        {{ bathroom.bathroom_id }}
-      {% endif %}
-      - {{ bathroom.city }}
-    <!-- Add button to add bathroom to user's list if it's not already on it -->  
-    <button type="button" id="{{ bathroom.bathroom_id }}">Add</button>
-    <script>
-    document.getElementById("{{ bathroom.bathroom_id }}").addEventListener('click', function() {
-      const url = '/add_list_item/{{ bathroom.bathroom_id }}/{{ named_list.list_id }}';
-      window.location = url;
-    })
-    </script>  
-    {% endif %}
-  </li>
-{% endfor %}
-</ul>
 {% endblock %}

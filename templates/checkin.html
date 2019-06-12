@@ -1,11 +1,16 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<h1> Great! You've checked in. </h1>
+</br>
+<div class="container">
+  <h3>Great! You've checked in.</h3>
+  <div>
     Would you like to rate this bathroom?
     </br></br>
     <button type="button" id="do_rate">Yes</button>
     <button type="button" id="dont_rate">No</button>
+  </div>
+</div>
 
 <script>
   document.getElementById("do_rate").addEventListener('click', function() {

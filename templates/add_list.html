@@ -2,24 +2,32 @@
 
 {% block body %}
 
-Current Lists:
-<ul style="list-style: none;">
-  {% for list in user.lists %}
-  <li>
-    {{ list.list_name }}
-  </li>
-  {% endfor %}
-</ul>
-  </br>
-List to Add:
 </br>
-<form action='/add_list' method='POST'>
-  <ul style="list-style:none;">
-    <li>
-      List Name: <input type="text" name="list_to_add">
-      <input type="submit" name="submit" value="Create List">
-    </li>
-  </ul>
-</form>
+<div class="container">
+  <h3>Current Lists:</h3>
+  <div>
+    <ul style="list-style: none;">
+      {% for list in user.lists %}
+      <li>
+        {{ list.list_name }}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<div class="container">
+  <h3>List to Add:</h3>
+  <div>
+    <form action='/add_list' method='POST'>
+      <ul style="list-style:none;">
+        <li>
+          List Name: <input type="text" name="list_to_add">
+          <input type="submit" name="submit" value="Create List">
+        </li>
+      </ul>
+    </form>
+  </div>
+</div>
 
 {% endblock %}

@@ -50,7 +50,7 @@ def process_reg():
         flash("You're now registered! Go ahead an log in.")
 
     # Redirect to homepage
-    return redirect("/")
+    return redirect("/login")
 
 @app.route("/login")
 def display_login():
@@ -67,13 +67,14 @@ def process_login():
         #if password matches, query database, retrieve user id and add to session
         user_obj = User.query.filter_by(email=user_email, password=password).one()
         session['user_id'] = user_obj.user_id
-        flash("Good job! You're logged in!!!")
-        # url = "/users/" + str(session['user_id'])
-        return redirect('/')
+        user_id = session['user_id']
+        flash("You're logged in! Time to sit upon your throne.")
+        return redirect(url_for("show_user_info", user_id=user_id))
         
     except:
-        flash("Uh oh! Password/email address is incorrect. It's okay...you can try again")
+        flash("Oh poo, your email or password is incorrect. No worries, you can try again.")
         return redirect("/login")
+
 
 @app.route('/logout')
 def logout():

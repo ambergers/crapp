@@ -1,75 +1,88 @@
 {% extends 'base.html' %}
+
 {% block body %}
 
-My Lists:
-<ul style="list-style: none;">
-  {% for list in user.lists %}
-  <li>
-    <a href="{{ url_for('show_user_list', list_id=list.list_id ) }}"> {{ list.list_name }} </a>
-  </li>
-  {% endfor %}
-  </br>
+</br>
+<div class="container">
+  <h3>My Lists:</h3>
+  <div>
+    <ul style="list-style: none;">
+      {% for list in user.lists %}
+      <li>
+        <a href="{{ url_for('show_user_list', list_id=list.list_id ) }}"> {{ list.list_name }} </a>
+      </li>
+      {% endfor %}
+      </br>
 
-  <!-- Button for user to add a NamedList -->
-  <button type="button" id="add_named_list">Add List</button>
-  <script>
-    document.getElementById('add_named_list').addEventListener('click', function() {
-        window.location = '/add_list'
-    })
-  </script>
-</ul>
-
-Checkins:
-<ul style="list-style: none;">
-  {% for checkin in user.checkins %}
-  <li>
-    <!-- List bathroom names (if available) and/or checkin datetime for bathrooms -->
-    {% if checkin.bathroom.name %}
-        {{ checkin.bathroom.name }} - {{ checkin.checkin_datetime.strftime('%Y-%m-%d') }}
-    {% else %}
-        {{ checkin.checkin_datetime.strftime('%Y-%m-%d') }}
-    {% endif %}
-    <!-- Check if user has already rated this checkin, add button to rate if not -->
-    {% if checkin.rating %}
-        <button type="button" id="{{ checkin.checkin_id }}">View Rating</button>
-        <script>
-        document.getElementById("{{ checkin.checkin_id }}").addEventListener('click', function() {
-          const url = '/rating/{{ checkin.rating.rating_id }}';
-          window.location = url;
+      <!-- Button for user to add a NamedList -->
+      <button type="button" id="add_named_list">Add List</button>
+      <script>
+        document.getElementById('add_named_list').addEventListener('click', function() {
+            window.location = '/add_list'
         })
-        </script>
-    {% else %}
-        <button type="button" id="checkin{{ checkin.checkin_id }}">Add Rating</button>
+      </script>
+    </ul>
+  </div>
+</div>
+
+<div class="container">
+  <h3>Checkins:</h3>
+  <div>
+    <ul style="list-style: none;">
+      {% for checkin in user.checkins %}
+      <li>
+        <!-- List bathroom names (if available) and/or checkin datetime for bathrooms -->
+        {% if checkin.bathroom.name %}
+            {{ checkin.bathroom.name }} - {{ checkin.checkin_datetime.strftime('%Y-%m-%d') }}
+        {% else %}
+            {{ checkin.checkin_datetime.strftime('%Y-%m-%d') }}
+        {% endif %}
+        <!-- Check if user has already rated this checkin, add button to rate if not -->
+        {% if checkin.rating %}
+            <button type="button" id="{{ checkin.checkin_id }}">View Rating</button>
+            <script>
+            document.getElementById("{{ checkin.checkin_id }}").addEventListener('click', function() {
+              const url = '/rating/{{ checkin.rating.rating_id }}';
+              window.location = url;
+            })
+            </script>
+        {% else %}
+            <button type="button" id="checkin{{ checkin.checkin_id }}">Add Rating</button>
+            <script>
+            document.getElementById("checkin{{ checkin.checkin_id }}").addEventListener('click', function() {
+              const url = '/rate/{{ checkin.bathroom.bathroom_id }}/{{ checkin.checkin_id}}';
+              window.location = url;
+            })
+            </script>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<div class="container">
+    <h3>Ratings:</h3>
+    <div>
+    <ul style="list-style: none;">
+      {% for rating in user.ratings %}
+      <li>
+        {% if rating.bathroom.name %}
+          {{ rating.bathroom.name }}
+        {% else %}
+          {{ rating.bathroom.bathroom_id }}
+        {% endif %}
+        <button type="button" id="rating{{ rating.rating_id }}">View Rating</button>
         <script>
-        document.getElementById("checkin{{ checkin.checkin_id }}").addEventListener('click', function() {
-          const url = '/rate/{{ checkin.bathroom.bathroom_id }}/{{ checkin.checkin_id}}';
-          window.location = url;
-        })
+          document.getElementById("rating{{ rating.rating_id }}").addEventListener('click', function() {
+            const url = '/rating/{{ rating.rating_id }}';
+            window.location = url;
+          })
         </script>
-    {% endif %}
-  </li>
-  {% endfor %}
-</ul>
-
-Ratings:
-<ul style="list-style: none;">
-  {% for rating in user.ratings %}
-  <li>
-    {% if rating.bathroom.name %}
-      {{ rating.bathroom.name }}
-    {% else %}
-      {{ rating.bathroom.bathroom_id }}
-    {% endif %}
-    <button type="button" id="rating{{ rating.rating_id }}">View Rating</button>
-    <script>
-      document.getElementById("rating{{ rating.rating_id }}").addEventListener('click', function() {
-        const url = '/rating/{{ rating.rating_id }}';
-        window.location = url;
-      })
-    </script>
-  </li>
-  {% endfor %}
-</ul>
-
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
 
 {% endblock %}

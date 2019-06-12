@@ -1,13 +1,28 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<h1> Login </h1>
-  <form action="/login-process", method="POST">
+</br>
+<div class="container">
+  <h3>Login:</h3>
+  <div>
+    <form action="/login-process", method="POST">
     Email Address <input type="text" name="email"> 
     </br>
     Password <input type="text" name="password">
-    </br>
+    </br></br>
     <input type="submit" name="submit" value="Log Me In!">
-  </form>
+    </form>
+    <div>
+      </br>
+      <h3>Need an Account?</h3>
+      <button type="button" id="go_to_register">Make One</button>
+    </div>
+  </div>
+</div>
 
+<script>
+  document.getElementById('go_to_register').addEventListener('click', function() {
+    window.location = '/register'
+  })
+</script>
 {% endblock %}
