@@ -15,11 +15,12 @@
 .star-cb-group > input + label {
   /* only enough room for the star */
   display: inline-block;
-  overflow: hidden;
+  /* overflow: hidden;*/
   text-indent: 9999px;
   width: 1em;
   white-space: nowrap;
   cursor: pointer;
+  text-align: right;
 }
 .star-cb-group > input + label:before {
   display: inline-block;
