@@ -14,6 +14,8 @@ db = SQLAlchemy()
 fake = Faker()
 fake.add_provider(misc)
 
+# TODO: use bcrypt to encrypt user passwords before adding real users
+
 ##################################################################
 # Model definitions
 

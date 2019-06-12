@@ -1,0 +1,77 @@
+body { 
+        padding-top: 71px; 
+        font-family: "Century Gothic",CenturyGothic,AppleGothic,sans-serif;
+      }
+      @media (max-width: 576px) {
+        body {
+          padding-top: 95px;
+        }
+      }
+      .navbar-custom {
+        font-family: "Century Gothic",CenturyGothic,AppleGothic,sans-serif;
+        color: #ffffff;
+        background-color: #284580;
+      }
+
+      .nav-link {
+        color: #ffffff;
+      }
+      .nav-link:hover {
+        color: #a86936;
+      }
+      .navbar-brand {
+        color: #ffffff;
+        font-size: 30px;
+      }
+      .navbar-brand:hover {
+        color: #a86936;
+      }
+      .navbar-brand:hover:after, .navbar-brand:visited:hover:after,
+      .nav-link:hover:after, .nav-link:visited:hover:after {
+        width: 0%;
+      }
+      button {
+        color: #284580;
+        background: transparent;
+        border: 2px solid #284580;
+        border-radius: 8px; 
+      }
+      button:hover {
+        background-color: #284580;
+        color: #ffffff;
+      }
+      input[type=button], input[type=submit] {
+        color: #284580;
+        background: transparent;
+        border: 2px solid #284580;
+        border-radius: 8px; 
+      }
+      input[type=button]:hover, input[type=submit]:hover {
+        background-color: #284580;
+        color: #ffffff;
+      }
+      a, a:visited {
+        text-decoration: none;
+        position: relative;
+        color: #284580;
+      }
+      a:after, a:visited:after {
+        content: '';
+        height: 3px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0%;
+        background: #a86936;
+        transition: 0.2s;
+        color: #a86936;
+      }
+      a:hover:after, a:visited:hover:after {
+        width: 100%;
+        color: #a86936;
+      }
+      a:hover {
+        color: #a86936;
+        transition: 0.2s;
+        font-weight: bold;
+      }
