@@ -6,7 +6,7 @@ body {
 }
 @media (max-width: 576px) {
   body {
-    padding-top: 95px;
+    padding-top: 125px;
   }
 }
 .navbar-custom {
@@ -31,6 +31,9 @@ body {
 .navbar-brand:hover:after, .navbar-brand:visited:hover:after,
 .nav-link:hover:after, .nav-link:visited:hover:after {
   width: 0%;
+}
+.container {
+  padding: 0;
 }
 button {
   background-color: #284580;
@@ -64,19 +67,22 @@ a:after, a:visited:after {
   bottom: 0;
   left: 0;
   width: 0%;
-  background: #a86936;
+  background: #804d28;
   transition: 0.2s;
-  color: #a86936;
+  color: #804d28;
 }
 a:hover:after, a:visited:hover:after {
   width: 100%;
-  color: #a86936;
+  color: #804d28;
 }
 a:hover {
-  color: #a86936;
+  color: #804d28;
   transition: 0.2s;
   font-weight: bold;
 }
 h1, h2, h3 {
   font-weight: bold;
+}
+li {
+  margin: 10px 0;
 }
