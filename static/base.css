@@ -46,14 +46,18 @@ button:hover {
   background: #ffffff;
 }
 input[type=button], input[type=submit] {
-  color: #284580;
-  background: transparent;
-  border: 2px solid #284580;
-  border-radius: 8px; 
-}
-input[type=button]:hover, input[type=submit]:hover {
   background-color: #284580;
   color: #ffffff;
+  border: 2px solid #284580;
+  border-radius: 8px;
+}
+input[type=button]:hover, input[type=submit]:hover {
+  color: #284580;
+  background: #ffffff;
+}
+input[type=text], textarea {
+  background: #98aed1;
+  border: 1px solid #284580;
 }
 a, a:visited {
   text-decoration: none;
@@ -85,4 +89,7 @@ h1, h2, h3 {
 }
 li {
   margin: 10px 0;
+}
+textarea::placeholder {
+  color: #284580;
 }
