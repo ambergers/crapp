@@ -6,17 +6,27 @@
   {{ super() }}
   <style>
     /* Setting initial map height, width */
-    #map {
-        height: 500px;
+    html, body, #map {
+      height: 100%;
+    }
+
+    /* Styling for bottom block button/footer */
+    .footer {
+      background-color: #284580;
+      font-size: 20px;
+      border-radius: 0px;
+      color: white;
+      position: fixed;
     }
   </style>
   
 {% endblock %}
 
 {% block body %}
-  <div id="map"></div>
-    </br>
-  <button type="button" class="btn btn-lg" id="search_near_me">Search Near Me</button>
+  <div style="height:100%; width:100%;">
+    <div id="map"></div>
+  </div>
+  <button type="button" class="footer btn-block fixed-bottom" id="search_near_me">Search Near Me</button>
 {% endblock %}
 
 {% block scripts %}

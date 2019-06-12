@@ -8,18 +8,24 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <!-- Load jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <!-- Add padding for navbar and adjusts for small screens -->
+    <style>
+      body { padding-top: 55px; 
+      }
+      @media (max-width: 576px) {
+        body {
+          padding-top: 105px;
+        }
+      }
+    </style>
     <title>crApp</title>
     {% endblock %}
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-md navbar-light fixed-top" style="background-color: #284580;">
+    <nav class="navbar navbar-expand-sm navbar-light fixed-top" style="background-color: #284580;">
       <a class="navbar-brand" href="#">crApp</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapseContent" aria-controls="navbarCollapseContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
 
-      <div class="collapse navbar-collapse" id="navbarCollapseContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
             <a class="nav-link" href="/">Home</a>

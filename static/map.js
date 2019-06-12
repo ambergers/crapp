@@ -421,8 +421,6 @@ function changeMarkerPos(latitude, longitude) {
 function addInfoWindowToMarker(marker, map) {
   const content = `<h1>${marker.title}</h1>
       <p>
-        <b>Lat:</b> ${marker.position.lat()}</br>
-        <b>Lng:</b> ${marker.position.lng()}</br></br>
         <button type="button" id="checkin" onclick="checkIn()">Check In</button>
       </p>
       `;
