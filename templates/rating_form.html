@@ -11,7 +11,7 @@
 <div class="container">
   <div>
     <form action={{ url_for("process_rate_bathroom", bathroom_id=bathroom.bathroom_id, checkin_id=checkin.checkin_id) }} method="POST">
-      <h4>How it go at 
+      <h4>How'd it go at 
         {% if bathroom.name %}
           {{ bathroom.name }} on {{ checkin.checkin_datetime.strftime('%Y-%m-%d') }}?
         {% else %}
