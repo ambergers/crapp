@@ -23,6 +23,12 @@ def homepage():
 
     return render_template('homepage.html')
 
+@app.route('/about')
+def display_about_page():
+    """Shows the about page."""
+
+    return render_template('about.html')
+
 @app.route('/register', methods=["GET"])
 def display_reg_page():
     """Send to reg page """
@@ -68,7 +74,7 @@ def process_login():
         user_obj = User.query.filter_by(email=user_email, password=password).one()
         session['user_id'] = user_obj.user_id
         user_id = session['user_id']
-        flash("You're logged in! Time to sit upon your throne.")
+        flash("You're logged in! Time to sit upon your throne 🚽")
         return redirect(url_for("show_user_info", user_id=user_id))
         
     except:

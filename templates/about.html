@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% block head %}
+  {{ super() }}
+  <style>
+    .container {
+        text-align: center;
+    }
+    iframe {
+        margin: 0 auto;
+        display: block;
+    }
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    .imgbox {
+        display: grid;
+        height: 100%;
+        background: linear-gradient(#98aed1, #284580);
+    }
+    .center-fit {
+        max-width: 100%;
+        max-height: 100vh;
+        margin: auto;
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+    #built_inspired {
+        background-color: #284580;
+        color: #ffffff;
+        width: 100%;
+        text-align: center;
+    }
+    #about_footer {
+        background-color: #284580;
+        color: #ffffff;
+        text-align: center;
+        position: absolute;
+        width: 100%;
+    }
+    #about_footer a {
+        color: #ffffff;
+    }
+    #about_footer a:hover {
+      color: #98aed1;
+      font-weight: bold;
+    }
+    #about_footer a:visited {
+      text-decoration: none;
+      position: relative;
+      color: #284580;
+    }
+    #about_footer a:after, a:visited:after {
+      content: '';
+      height: 3px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      background: #98aed1;
+      transition: 0.2s;
+      color: #98aed1;
+    }
+    #about_footer a:hover:after, a:visited:hover:after {
+      width: 100%;
+      color: #98aed1;
+    }
+    span {
+        font-size: 30px;
+    }
+  </style>
+{% endblock %}
+{% block body %}
+
+<div class="imgbox">
+    </br>
+    <img class="center-fit" src='/static/img/dland.png'>
+</div>
+  <div id="built_inspired">
+      <h1>cr💩pp</h1>
+      <h3 style="display: inline;"> Built & Designed by Amber - Inspired by Chris </h3>
+  </br></br></br>
+  </div>
+  </br></br></br>
+
+<div class="container">
+  <p>
+    <span>I believe there is a solution to every problem.</span> Especially for
+    things that should be easy, like finding a publicly available restroom when you need
+    one. It feels like handling a basic human function would be easy, right? So when I heard about how <span>crappy</span> it is for my delivery driver partner to find a restroom around the city, I was determined to build a solution.
+  </p>
+</div>
+
+</br></br>
+<div class="container">
+    <h3>Because finding a public restroom shouldn't be this difficult</h3>
+    <iframe src="https://giphy.com/embed/Gx9JkhbjcL8E8" width="500" height="380" align="middle" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+</div>
+
+</br>
+<div id="about_footer">
+    </br>
+    <h3 class="contact_info">LinkedIn</h3>
+    <p>
+        <a class="contact_info" href="https://www.linkedin.com/in/ambermariegreg/">
+          linkedin.com/in/ambermariegreg
+        </a>
+    </p>
+    <p>
+    <h3 class="contact_info">Github</h3>
+        <a class="contact_info" href="https://github.com/ambergers">
+          github.com/ambergers
+        </a>
+    </p>
+    <p>
+        <h3 class="contact_info">E-mail</h3>
+        <a class="contact_info" href="mailto: ambermariegreg@gmail.com">
+          ambermariegreg@gmail.com
+        </a>
+    </p>
+</div>
+
+{% endblock %}
